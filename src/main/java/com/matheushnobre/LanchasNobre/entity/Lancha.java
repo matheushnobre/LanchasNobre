@@ -22,6 +22,6 @@ public class Lancha {
     private Integer ano_fabricacao;
 
     @ManyToOne
-    @JoinColumn(name = "id_ mapa_interno", nullable = false)
+    @JoinColumn(name = "id_mapa_interno", nullable = false)
     private MapaInterno mapaInterno;
 }

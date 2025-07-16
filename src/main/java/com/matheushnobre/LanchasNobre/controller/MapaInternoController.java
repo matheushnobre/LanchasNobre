@@ -12,13 +12,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/mapa_interno")
 public class MapaInternoController {
+
     @Autowired
     private MapaInternoService mapaInternoService;
 
     @PostMapping
-    public ResponseEntity<MapaInterno> criar(@RequestBody MapaInterno mapaInterno) {
-        MapaInterno salvo = mapaInternoService.criarMapaInternoComAssentos(mapaInterno);
-        return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
+    public ResponseEntity<MapaInterno> addMapaInterno(@RequestBody MapaInterno mapaInterno) {
+        MapaInterno mapaCriado = mapaInternoService.criarMapaInternoComAssentos(mapaInterno);
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapaCriado);
     }
 
     @GetMapping
@@ -29,8 +30,8 @@ public class MapaInternoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<MapaInterno> deletarPorId(@PathVariable Long id) {
-        boolean deletado = mapaInternoService.deletarPorId(id);
-        if(deletado) {
+        boolean foiDeletado = mapaInternoService.deletarPorId(id);
+        if(foiDeletado) {
             return ResponseEntity.noContent().build(); // 204 noContent (deletado)
         }
         return ResponseEntity.notFound().build(); // 404 notFound
