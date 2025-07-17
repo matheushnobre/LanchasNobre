@@ -5,31 +5,33 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table
 @Getter
 @Setter
-public class Assento {
+public class Usuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 10)
-    private String codigoAssento;
+    @Column(nullable = false, length = 100)
+    private String nome;
 
-    @Column
-    private Integer posicaoX;
+    @Column(nullable = false, length = 100)
+    private String email;
 
-    @Column
-    private Integer posicaoY;
+    @Column(nullable = false)
+    private LocalDateTime dataNascimento;
 
-    @ManyToOne
-    @JoinColumn(name = "id_mapa_interno", nullable = false)
-    private MapaInterno mapaInterno;
+    @Column(nullable = false)
+    private String cpf;
 
+    @OneToMany(mappedBy = "passageiro")
     @JsonIgnore
-    @OneToMany(mappedBy = "assento")
     private List<Passagem> passagens;
 }
+

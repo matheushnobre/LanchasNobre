@@ -11,22 +11,23 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-public class Lancha {
+public class Cidade {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true, length = 100)
+    @Column(length = 50, nullable = false)
     private String nome;
 
-    @Column(nullable = false)
-    private Integer ano_fabricacao;
-
-    @ManyToOne
-    @JoinColumn(name = "id_mapa_interno", nullable = false)
-    private MapaInterno mapaInterno;
+    @Column(length = 2, nullable = false)
+    private String estado;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "lancha")
-    private List<Viagem> viagens;
+    @OneToMany(mappedBy = "cidadeOrigem")
+    private List<Viagem> viagensOrigem;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "cidadeDestino")
+    private List<Viagem> viagensDestino;
 }
