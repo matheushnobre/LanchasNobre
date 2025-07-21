@@ -16,6 +16,28 @@ public class MapaInternoService {
     private MapaInternoRepository mapaInternoRepository;
 
     public MapaInterno salvar(MapaInterno mapaInterno) {
+        // Gera os assentos do mapa e, após isso, salva o mapa.
+        gerarAssentos(mapaInterno);
+        return mapaInternoRepository.save(mapaInterno);
+    }
+
+    public List<MapaInterno> listarTodos(){
+        return mapaInternoRepository.findAll();
+    }
+
+    public boolean deletarPorId(Long id){
+        // Busca o mapa interno com o id solicitado e,
+        // caso exista, deleta-o. Caso contrário, reporta isto.
+
+        if(mapaInternoRepository.existsById(id)){
+            mapaInternoRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void gerarAssentos(MapaInterno mapaInterno) {
         // Mapear os assentos do mapa interno, criando-os e persirstindo-os no banco.
         // Código do assento será incrementado na ordem em que são lidos.
 
@@ -40,23 +62,5 @@ public class MapaInternoService {
 
         mapaInterno.setCapacidade(assentos.size());
         mapaInterno.setAssentos(assentos);
-
-        return mapaInternoRepository.save(mapaInterno);
-    }
-
-    public List<MapaInterno> listarTodos(){
-        return mapaInternoRepository.findAll();
-    }
-
-    public boolean deletarPorId(Long id){
-        // Busca o mapa interno com o id solicitado e,
-        // caso exista, deleta-o. Caso contrário, reporta isto.
-
-        if(mapaInternoRepository.existsById(id)){
-            mapaInternoRepository.deleteById(id);
-            return true;
-        }
-
-        return false;
     }
 }

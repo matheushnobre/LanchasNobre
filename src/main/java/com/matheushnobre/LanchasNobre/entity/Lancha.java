@@ -16,7 +16,7 @@ public class Lancha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = true, length = 100)
+    @Column(nullable = true, length = 100, unique = true)
     private String nome;
 
     @Column(nullable = false)

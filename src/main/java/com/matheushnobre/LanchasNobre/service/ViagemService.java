@@ -36,7 +36,6 @@ public class ViagemService {
         Viagem viagemAtualizada = viagemRepository.findById(id).orElseThrow(
                 () -> new RecursoNaoEncontradoException("Viagem com id " + id + "nao encontrada."));
 
-
         // Atualiza campos desejados
         if(viagem.getCidadeOrigem() != null) viagemAtualizada.setCidadeOrigem(viagem.getCidadeOrigem());
         if(viagem.getCidadeDestino() != null) viagemAtualizada.setCidadeDestino(viagem.getCidadeDestino());
