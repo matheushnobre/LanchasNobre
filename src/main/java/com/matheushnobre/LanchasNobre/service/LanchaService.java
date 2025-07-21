@@ -20,7 +20,7 @@ public class LanchaService {
     @Autowired
     private MapaInternoRepository mapaInternoRepository;
 
-    public Lancha criarLancha(Lancha lancha){
+    public Lancha salvar(Lancha lancha){
         // Para criar uma lancha, a mesma deve atender alguns critérios:
         // 1. Nome deve ser único, ou seja, não deve possuir outra lancha com mesmo nome.
         // 2. O id do mapa interno deve ser válido.

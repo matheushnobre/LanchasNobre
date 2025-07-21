@@ -15,7 +15,7 @@ public class MapaInternoService {
     @Autowired
     private MapaInternoRepository mapaInternoRepository;
 
-    public MapaInterno criarMapaInternoComAssentos(MapaInterno mapaInterno) {
+    public MapaInterno salvar(MapaInterno mapaInterno) {
         // Mapear os assentos do mapa interno, criando-os e persirstindo-os no banco.
         // Código do assento será incrementado na ordem em que são lidos.
 

@@ -17,8 +17,8 @@ public class MapaInternoController {
     private MapaInternoService mapaInternoService;
 
     @PostMapping
-    public ResponseEntity<MapaInterno> addMapaInterno(@RequestBody MapaInterno mapaInterno) {
-        MapaInterno mapaCriado = mapaInternoService.criarMapaInternoComAssentos(mapaInterno);
+    public ResponseEntity<MapaInterno> adicionar(@RequestBody MapaInterno mapaInterno) {
+        MapaInterno mapaCriado = mapaInternoService.salvar(mapaInterno);
         return ResponseEntity.status(HttpStatus.CREATED).body(mapaCriado);
     }
 

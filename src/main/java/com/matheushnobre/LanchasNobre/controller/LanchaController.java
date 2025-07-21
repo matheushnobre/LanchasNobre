@@ -16,8 +16,8 @@ public class LanchaController {
     private LanchaService lanchaService;
 
     @PostMapping
-    public ResponseEntity<Lancha> addLancha(@RequestBody Lancha lancha) {
-        Lancha lanchaCriada = lanchaService.criarLancha(lancha);
+    public ResponseEntity<Lancha> adicionar(@RequestBody Lancha lancha) {
+        Lancha lanchaCriada = lanchaService.salvar(lancha);
         return ResponseEntity.status(HttpStatus.CREATED).body(lanchaCriada);
     }
 
@@ -34,11 +34,9 @@ public class LanchaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Lancha> deletarPorId(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarPorId(@PathVariable Long id) {
         boolean foiDeletado = lanchaService.deletarPorId(id);
-        if(foiDeletado) {
-            return ResponseEntity.noContent().build(); // 204 noContent (deletado)
-        }
+        if(foiDeletado) return ResponseEntity.noContent().build(); // 204 noContent (deletado)
         return ResponseEntity.notFound().build(); // 404 notFound
     }
 }
