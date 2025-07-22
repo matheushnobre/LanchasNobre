@@ -28,5 +28,5 @@ public class Passagem {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private StatusPagamento statusPagamento;
 }

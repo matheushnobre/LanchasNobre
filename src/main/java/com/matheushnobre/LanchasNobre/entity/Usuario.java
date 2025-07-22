@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -25,7 +25,7 @@ public class Usuario {
     private String email;
 
     @Column(nullable = false)
-    private LocalDateTime dataNascimento;
+    private LocalDate dataNascimento;
 
     @Column(nullable = false)
     private String cpf;

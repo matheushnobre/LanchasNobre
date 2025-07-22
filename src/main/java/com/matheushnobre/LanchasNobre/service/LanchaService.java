@@ -6,6 +6,7 @@ import com.matheushnobre.LanchasNobre.exception.RecursoDuplicadoException;
 import com.matheushnobre.LanchasNobre.exception.RecursoNaoEncontradoException;
 import com.matheushnobre.LanchasNobre.repository.LanchaRepository;
 import com.matheushnobre.LanchasNobre.repository.MapaInternoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class LanchaService {
     @Autowired
     private MapaInternoRepository mapaInternoRepository;
 
+    @Transactional
     public Lancha salvar(Lancha lancha){
         // Para criar uma lancha, a mesma deve atender alguns critérios, expostos em validarLancha()
         validarLancha(lancha);
@@ -30,6 +32,7 @@ public class LanchaService {
         return lanchaRepository.findAll();
     }
 
+    @Transactional
     public Lancha atualizar(Long id, Lancha lancha){
         // Para atualizar uma lancha, iremos realizar a validação e depois persistir esta atualização no banco.
 

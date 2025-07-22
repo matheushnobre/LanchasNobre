@@ -3,6 +3,7 @@ package com.matheushnobre.LanchasNobre.service;
 import com.matheushnobre.LanchasNobre.entity.Assento;
 import com.matheushnobre.LanchasNobre.entity.MapaInterno;
 import com.matheushnobre.LanchasNobre.repository.MapaInternoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ public class MapaInternoService {
     @Autowired
     private MapaInternoRepository mapaInternoRepository;
 
+    @Transactional
     public MapaInterno salvar(MapaInterno mapaInterno) {
         // Gera os assentos do mapa e, após isso, salva o mapa.
         gerarAssentos(mapaInterno);
