@@ -3,7 +3,7 @@ package com.matheushnobre.LanchasNobre.service;
 import com.matheushnobre.LanchasNobre.entity.Viagem;
 import com.matheushnobre.LanchasNobre.exception.CidadeInvalidaException;
 import com.matheushnobre.LanchasNobre.exception.DataInvalidaException;
-import com.matheushnobre.LanchasNobre.exception.RecursoNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.exception.RegistroNaoEncontradoException;
 import com.matheushnobre.LanchasNobre.repository.ViagemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class ViagemService {
 
         // Procura por viagem com ID solicitado
         Viagem viagemAtualizada = viagemRepository.findById(id).orElseThrow(
-                () -> new RecursoNaoEncontradoException("Viagem com id " + id + "nao encontrada."));
+                () -> new RegistroNaoEncontradoException("Viagem com id " + id + "nao encontrada."));
 
         // Atualiza campos desejados
         if(viagem.getCidadeOrigem() != null) viagemAtualizada.setCidadeOrigem(viagem.getCidadeOrigem());

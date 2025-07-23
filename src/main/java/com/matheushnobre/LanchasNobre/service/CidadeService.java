@@ -1,7 +1,7 @@
 package com.matheushnobre.LanchasNobre.service;
 
 import com.matheushnobre.LanchasNobre.entity.Cidade;
-import com.matheushnobre.LanchasNobre.exception.RecursoDuplicadoException;
+import com.matheushnobre.LanchasNobre.exception.RegistroDuplicadoException;
 import com.matheushnobre.LanchasNobre.repository.CidadeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class CidadeService {
         // cidade salva com as mesmas informações
 
         if(cidadeRepository.countByNomeAndEstado(cidade.getNome(), cidade.getEstado()) >= 1){
-            throw new RecursoDuplicadoException("Cidade já cadastrada no sistema.");
+            throw new RegistroDuplicadoException("Cidade já cadastrada no sistema.");
         }
 
         return cidadeRepository.save(cidade);

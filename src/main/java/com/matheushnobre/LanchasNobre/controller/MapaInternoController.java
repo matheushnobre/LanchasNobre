@@ -1,7 +1,9 @@
 package com.matheushnobre.LanchasNobre.controller;
 
+import com.matheushnobre.LanchasNobre.dto.MapaInternoDTO;
 import com.matheushnobre.LanchasNobre.entity.MapaInterno;
 import com.matheushnobre.LanchasNobre.service.MapaInternoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,23 +19,20 @@ public class MapaInternoController {
     private MapaInternoService mapaInternoService;
 
     @PostMapping
-    public ResponseEntity<MapaInterno> adicionar(@RequestBody MapaInterno mapaInterno) {
-        MapaInterno mapaCriado = mapaInternoService.salvar(mapaInterno);
+    public ResponseEntity<MapaInterno> add(@RequestBody @Valid MapaInternoDTO mapaInternoDTO) {
+        MapaInterno mapaCriado = mapaInternoService.add(mapaInternoDTO.toEntity());
         return ResponseEntity.status(HttpStatus.CREATED).body(mapaCriado);
     }
 
     @GetMapping
-    public ResponseEntity<List<MapaInterno>> listarTodos(){
-        List<MapaInterno> lista = mapaInternoService.listarTodos();
+    public ResponseEntity<List<MapaInterno>> listAll(){
+        List<MapaInterno> lista = mapaInternoService.listAll();
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<MapaInterno> deletarPorId(@PathVariable Long id) {
-        boolean foiDeletado = mapaInternoService.deletarPorId(id);
-        if(foiDeletado) {
-            return ResponseEntity.noContent().build(); // 204 noContent (deletado)
-        }
-        return ResponseEntity.notFound().build(); // 404 notFound
+    public ResponseEntity<MapaInterno> deleteById(@PathVariable Long id) {
+        mapaInternoService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

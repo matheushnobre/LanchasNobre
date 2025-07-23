@@ -1,7 +1,10 @@
 package com.matheushnobre.LanchasNobre.controller;
 
+import com.matheushnobre.LanchasNobre.dto.LanchaDTO;
 import com.matheushnobre.LanchasNobre.entity.Lancha;
 import com.matheushnobre.LanchasNobre.service.LanchaService;
+import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,27 +19,32 @@ public class LanchaController {
     private LanchaService lanchaService;
 
     @PostMapping
-    public ResponseEntity<Lancha> adicionar(@RequestBody Lancha lancha) {
-        Lancha lanchaCriada = lanchaService.salvar(lancha);
-        return ResponseEntity.status(HttpStatus.CREATED).body(lanchaCriada);
+    public ResponseEntity<Lancha> add(@RequestBody @Valid LanchaDTO lanchaDTO) {
+        Lancha lancha = lanchaService.add(lanchaDTO.toEntity());
+        return ResponseEntity.status(HttpStatus.CREATED).body(lancha);
     }
 
     @GetMapping
-    public ResponseEntity<List<Lancha>> listarTodas() {
-        List<Lancha> lista = lanchaService.listarTodas();
+    public ResponseEntity<List<Lancha>> listAll() {
+        List<Lancha> lista = lanchaService.listAll();
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Lancha> atualizar(@PathVariable Long id, @RequestBody Lancha lancha) {
-        Lancha lanchaAtualizada = lanchaService.atualizar(id, lancha);
-        return ResponseEntity.status(HttpStatus.OK).body(lanchaAtualizada);
+    @GetMapping("/{id}")
+    public ResponseEntity<Lancha> getById(@PathVariable Long id) {
+        Lancha lancha = lanchaService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(lancha);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Lancha> updateById(@PathVariable Long id, @RequestBody @Valid LanchaDTO lanchaDTO) {
+        Lancha lancha = lanchaService.updateById(id, lanchaDTO.toEntity());
+        return ResponseEntity.status(HttpStatus.OK).body(lancha);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarPorId(@PathVariable Long id) {
-        boolean foiDeletado = lanchaService.deletarPorId(id);
-        if(foiDeletado) return ResponseEntity.noContent().build(); // 204 noContent (deletado)
-        return ResponseEntity.notFound().build(); // 404 notFound
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        lanchaService.deleteById(id);
+        return ResponseEntity.noContent().build(); // 204 noContent (deletado)
     }
 }

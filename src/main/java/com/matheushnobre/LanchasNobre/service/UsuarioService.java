@@ -2,7 +2,7 @@ package com.matheushnobre.LanchasNobre.service;
 
 import com.matheushnobre.LanchasNobre.entity.Passagem;
 import com.matheushnobre.LanchasNobre.entity.Usuario;
-import com.matheushnobre.LanchasNobre.exception.RecursoNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.exception.RegistroNaoEncontradoException;
 import com.matheushnobre.LanchasNobre.repository.PassagemRepository;
 import com.matheushnobre.LanchasNobre.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -30,9 +30,15 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
+    public Usuario selecionarPorId(Long id){
+        return usuarioRepository.findById(id).orElseThrow(
+                () -> new RegistroNaoEncontradoException("Usuário com id solicitado não encontrado")
+        );
+    }
+
     public List<Passagem> listarPassagensDoUsuario(Long id){
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(
-                () -> new RecursoNaoEncontradoException("Usuário com id solicitado não encontrado.")
+                () -> new RegistroNaoEncontradoException("Usuário com id solicitado não encontrado.")
         );
         return passagemRepository.findByPassageiro(usuario);
     }
@@ -41,7 +47,7 @@ public class UsuarioService {
     public Usuario atualizar(Long id, Usuario usuario) {
         // Procura pelo usuario que será atualizado
         Usuario usuarioAtualizado = usuarioRepository.findById(id).orElseThrow(
-                () -> new RecursoNaoEncontradoException("Usuário não encontrado.")
+                () -> new RegistroNaoEncontradoException("Usuário não encontrado.")
         );
 
         if(usuario.getNome() != null) usuarioAtualizado.setNome(usuario.getNome());

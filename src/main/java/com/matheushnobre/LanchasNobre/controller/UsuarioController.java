@@ -29,6 +29,12 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> selecionarPorId(@PathVariable Long id) {
+        Usuario usuario = usuarioService.selecionarPorId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(usuario);
+    }
+
     @GetMapping("/listarPassagens/{id}")
     public ResponseEntity<List<Passagem>> listarPassagensDoUsuario(@PathVariable Long id) {
         List<Passagem> lista = usuarioService.listarPassagensDoUsuario(id);

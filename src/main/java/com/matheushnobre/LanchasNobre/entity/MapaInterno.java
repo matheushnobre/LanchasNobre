@@ -24,7 +24,7 @@ public class MapaInterno {
 
     @OneToMany(mappedBy = "mapaInterno")
     @JsonIgnore
-    private List<Lancha> lanchas;
+    private List<Lancha> lanchaEntities;
 
     @OneToMany(mappedBy = "mapaInterno", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore

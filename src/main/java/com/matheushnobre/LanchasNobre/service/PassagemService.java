@@ -3,7 +3,7 @@ package com.matheushnobre.LanchasNobre.service;
 import com.matheushnobre.LanchasNobre.entity.Passagem;
 import com.matheushnobre.LanchasNobre.entity.StatusPagamento;
 import com.matheushnobre.LanchasNobre.exception.AssentoOcupadoException;
-import com.matheushnobre.LanchasNobre.exception.RecursoNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.exception.RegistroNaoEncontradoException;
 import com.matheushnobre.LanchasNobre.repository.PassagemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class PassagemService {
     public Passagem selecionarPorId(Long id) {
         // verifica se existe passagem com id solicitado e, se existir, retorna
         return passagemRepository.findById(id).orElseThrow(
-                () -> new RecursoNaoEncontradoException("Não existe passagem com o id solicitado")
+                () -> new RegistroNaoEncontradoException("Não existe passagem com o id solicitado")
         );
     }
 
