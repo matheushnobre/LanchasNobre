@@ -1,5 +1,6 @@
 package com.matheushnobre.LanchasNobre.controller;
 
+import com.matheushnobre.LanchasNobre.entity.Passagem;
 import com.matheushnobre.LanchasNobre.entity.Usuario;
 import com.matheushnobre.LanchasNobre.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<List<Usuario>> listarTodos() {
         List<Usuario> lista = usuarioService.listar();
+        return ResponseEntity.status(HttpStatus.OK).body(lista);
+    }
+
+    @GetMapping("/listarPassagens/{id}")
+    public ResponseEntity<List<Passagem>> listarPassagensDoUsuario(@PathVariable Long id) {
+        List<Passagem> lista = usuarioService.listarPassagensDoUsuario(id);
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 

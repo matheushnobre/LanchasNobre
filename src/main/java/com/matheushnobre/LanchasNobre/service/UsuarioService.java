@@ -1,7 +1,9 @@
 package com.matheushnobre.LanchasNobre.service;
 
+import com.matheushnobre.LanchasNobre.entity.Passagem;
 import com.matheushnobre.LanchasNobre.entity.Usuario;
 import com.matheushnobre.LanchasNobre.exception.RecursoNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.repository.PassagemRepository;
 import com.matheushnobre.LanchasNobre.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PassagemRepository passagemRepository;
+
     @Transactional
     public Usuario salvar(Usuario usuario) {
         // implementar validação posteriormente (somente cpf)
@@ -23,6 +28,13 @@ public class UsuarioService {
 
     public List<Usuario> listar() {
         return usuarioRepository.findAll();
+    }
+
+    public List<Passagem> listarPassagensDoUsuario(Long id){
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(
+                () -> new RecursoNaoEncontradoException("Usuário com id solicitado não encontrado.")
+        );
+        return passagemRepository.findByPassageiro(usuario);
     }
 
     @Transactional
