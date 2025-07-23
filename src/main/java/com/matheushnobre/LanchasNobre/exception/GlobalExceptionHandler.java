@@ -47,4 +47,11 @@ public class GlobalExceptionHandler {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND.value(), ex.getMessage(), List.of());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
     }
+
+    // Erro de registro utilizado, não podendo ser deletado.
+    @ExceptionHandler(RegistroUtilizadoException.class)
+    public ResponseEntity<ApiError> handleRegistroUtilizado(RegistroUtilizadoException ex) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), List.of());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
 }

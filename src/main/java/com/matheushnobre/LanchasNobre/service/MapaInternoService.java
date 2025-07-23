@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MapaInternoService {
@@ -25,7 +26,7 @@ public class MapaInternoService {
     public MapaInterno add(MapaInterno mapaInterno) {
         // Gera os assentos do mapa e, após isso, salva o mapa.
         gerarAssentos(mapaInterno);
-        mapaInternoValidator.validar(mapaInterno);
+        mapaInternoValidator.validarInsercao(mapaInterno);
         return mapaInternoRepository.save(mapaInterno);
     }
 
@@ -33,11 +34,20 @@ public class MapaInternoService {
         return mapaInternoRepository.findAll();
     }
 
+    public MapaInterno getById(Long id){
+        return mapaInternoRepository.findById(id).orElseThrow(
+                () -> new RegistroNaoEncontradoException("Mapa com id " + id + " não encontrado")
+        );
+    }
+
     public void deleteById(Long id){
-        if(!mapaInternoRepository.existsById(id)){
+        Optional<MapaInterno> mapaInterno = mapaInternoRepository.findById(id);
+
+        if(!mapaInterno.isPresent()){
             throw new RegistroNaoEncontradoException("Mapa com id " + id + " não encontrado");
         }
 
+        mapaInternoValidator.validarRemocao(mapaInterno.get());
         mapaInternoRepository.deleteById(id);
     }
 

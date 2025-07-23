@@ -1,12 +1,16 @@
 package com.matheushnobre.LanchasNobre.validator;
 
 import com.matheushnobre.LanchasNobre.entity.Lancha;
+import com.matheushnobre.LanchasNobre.entity.Viagem;
 import com.matheushnobre.LanchasNobre.exception.RegistroDuplicadoException;
+import com.matheushnobre.LanchasNobre.exception.RegistroUtilizadoException;
 import com.matheushnobre.LanchasNobre.repository.LanchaRepository;
 import com.matheushnobre.LanchasNobre.repository.MapaInternoRepository;
+import com.matheushnobre.LanchasNobre.repository.ViagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -18,29 +22,41 @@ public class LanchaValidator {
     @Autowired
     MapaInternoRepository mapaInternoRepository;
 
-    public void validar(Lancha lancha) {
-        if(existsByNome(lancha)){
+    @Autowired
+    ViagemRepository viagemRepository;
+
+    public void validarInsercao(Lancha lancha) {
+        if(existsByNome(lancha) != -1L){
             throw new RegistroDuplicadoException("Nome de lancha já utilizado.");
         }
     }
 
-    private boolean existsByNome(Lancha lancha) {
-        System.out.println("validar nome");
+    public void validarAtualizacao(Long id, Lancha lancha) {
+        Long idExistente = existsByNome(lancha);
+        if(idExistente != -1L && idExistente != id){
+            throw new RegistroDuplicadoException("Nome de lancha já utilizado.");
+        }
+    }
+
+    public void validarRemocao(Lancha lancha){
+        if(isUtilizada(lancha)){
+            throw new RegistroUtilizadoException("Lancha está sendo utilizada em outros registros");
+        }
+    }
+
+    private Long existsByNome(Lancha lancha) {
         Optional<Lancha> lanchaEncontrada = lanchaRepository.findByNome(lancha.getNome());
 
-        // Se o ID da lancha é nulo, significa que eu estou cadastrando esta lancha pela primeira vez.
-        if(lancha.getId() == null){
-            return lanchaEncontrada.isPresent(); // Retorna true caso já exista autor com este nome, false caso contrário.
-        }
-
-        // Se o ID da lancha não for nulo, quer dizer que esta lancha já está salva no banco.
-        // Neste caso, pode tratar-se de uma validação para ação de atualização, sendo necessário validar se o nome encontrado já pertence a esta lancha.
         if(lanchaEncontrada.isPresent()){
-            System.out.println(lanchaEncontrada.get().getNome() + " " + lancha.getNome());
-            return !lanchaEncontrada.get().getNome().equals(lancha.getNome());
+            return lanchaEncontrada.get().getId();
         }
 
-        return false;
+        return -1L;
+    }
+
+    private boolean isUtilizada(Lancha lancha) {
+        List<Viagem> viagens = viagemRepository.findByLancha(lancha);
+        return !viagens.isEmpty();
     }
 
 }

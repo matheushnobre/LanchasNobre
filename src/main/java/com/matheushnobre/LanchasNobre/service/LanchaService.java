@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LanchaService {
@@ -25,7 +26,7 @@ public class LanchaService {
 
     @Transactional
     public Lancha add(Lancha lancha){
-        lanchaValidator.validar(lancha);
+        lanchaValidator.validarInsercao(lancha);
         return lanchaRepository.save(lancha);
     }
 
@@ -42,25 +43,25 @@ public class LanchaService {
     @Transactional
     public Lancha updateById(Long id, Lancha lancha){
         // Busca por lancha com id solicitado.
-        Lancha lanchaAtual = lanchaRepository.findById(id).orElseThrow
-                (() -> new RegistroNaoEncontradoException("Lancha com id " + id + " não encontrada."));
-
-        // Atualizando dados localmente.
-        lanchaAtual.setNome(lancha.getNome());
-        lanchaAtual.setAnoFabricacao(lancha.getAnoFabricacao());
-        lanchaAtual.setMapaInterno(lancha.getMapaInterno());
+        boolean existe = lanchaRepository.existsById(id);
+        if(!existe){
+            throw new RegistroNaoEncontradoException("Lancha com id " + id + " não encontrada.");
+        }
 
         // Valida a alteração e persiste no banco.
-        lanchaValidator.validar(lanchaAtual);
-        return lanchaRepository.save(lanchaAtual);
+        lanchaValidator.validarAtualizacao(id, lancha);
+        lancha.setId(id);
+        return lanchaRepository.save(lancha);
     }
 
     @Transactional
     public void deleteById(Long id){
-        if(!lanchaRepository.existsById(id)){
+        Optional<Lancha> lancha = lanchaRepository.findById(id);
+        if(!lancha.isPresent()){
             throw new RegistroNaoEncontradoException("Lancha com id " + id + " não encontrada.");
         }
 
+        lanchaValidator.validarRemocao(lancha.get());
         lanchaRepository.deleteById(id);
     }
 }

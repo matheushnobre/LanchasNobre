@@ -29,7 +29,13 @@ public class MapaInternoController {
         List<MapaInterno> lista = mapaInternoService.listAll();
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
-
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<MapaInterno> getById(@PathVariable Long id){
+        MapaInterno mapa = mapaInternoService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(mapa);
+    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<MapaInterno> deleteById(@PathVariable Long id) {
         mapaInternoService.deleteById(id);
