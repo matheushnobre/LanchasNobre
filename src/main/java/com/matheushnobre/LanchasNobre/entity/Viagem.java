@@ -2,8 +2,6 @@ package com.matheushnobre.LanchasNobre.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,11 +18,9 @@ public class Viagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Future
     @Column(nullable = false)
     private LocalDateTime dataPartida;
 
-    @Future
     @Column(nullable = false)
     private LocalDateTime dataChegada;
 
@@ -40,7 +36,6 @@ public class Viagem {
     @JoinColumn(name = "lancha_id")
     private Lancha lancha;
 
-    @Positive
     @Column(nullable = false)
     private Double preco;
 

@@ -5,8 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,17 +39,24 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
     }
 
-    // Erro de registro não inválido.
+    // Erro de registro inválido.
     @ExceptionHandler(RegistroInvalidoException.class)
     public ResponseEntity<ApiError> handleRegistroInvalido(RegistroInvalidoException ex) {
-        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND.value(), ex.getMessage(), List.of());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
+        ApiError apiError = new ApiError(HttpStatus.UNPROCESSABLE_ENTITY.value(), ex.getMessage(), List.of());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(apiError);
     }
 
     // Erro de registro utilizado, não podendo ser deletado.
     @ExceptionHandler(RegistroUtilizadoException.class)
     public ResponseEntity<ApiError> handleRegistroUtilizado(RegistroUtilizadoException ex) {
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), List.of());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+        ApiError apiError = new ApiError(HttpStatus.CONFLICT.value(), ex.getMessage(), List.of());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError);
+    }
+
+    // Erro de viagem antiga.
+    @ExceptionHandler(ViagemNoPassadoException.class)
+    public ResponseEntity<ApiError> handleViagemNoPassado(ViagemNoPassadoException ex) {
+        ApiError apiError = new ApiError(HttpStatus.CONFLICT.value(), ex.getMessage(), List.of());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError);
     }
 }

@@ -1,5 +1,7 @@
 package com.matheushnobre.LanchasNobre.controller;
 
+import com.matheushnobre.LanchasNobre.dto.ViagemDTO;
+import com.matheushnobre.LanchasNobre.entity.Usuario;
 import com.matheushnobre.LanchasNobre.entity.Viagem;
 import com.matheushnobre.LanchasNobre.service.ViagemService;
 import jakarta.validation.Valid;
@@ -18,28 +20,39 @@ public class ViagemController {
     private ViagemService viagemService;
 
     @PostMapping
-    public ResponseEntity<Viagem> adicionar(@Valid @RequestBody Viagem viagem) {
-        Viagem viagemSalva = viagemService.salvar(viagem);
+    public ResponseEntity<Viagem> add(@Valid @RequestBody ViagemDTO viagemDTO) {
+        Viagem viagemSalva = viagemService.add(viagemDTO.toEntity());
         return ResponseEntity.status(HttpStatus.CREATED).body(viagemSalva);
     }
 
     @GetMapping
-    public ResponseEntity<List<Viagem>> listarTodas() {
-        List<Viagem> lista = viagemService.listarTodas();
+    public ResponseEntity<List<Viagem>> listAll() {
+        List<Viagem> lista = viagemService.listAll();
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Viagem> atualizar(@PathVariable Long id, @Valid @RequestBody Viagem viagem){
-        Viagem viagemAtualizada = viagemService.atualizar(id, viagem);
+    @GetMapping("/{id}")
+    public ResponseEntity<Viagem> getById(@PathVariable Long id) {
+        Viagem viagem = viagemService.getById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(viagem);
+    }
+
+    @GetMapping("/passageiros/{id}")
+    public ResponseEntity<List<Usuario>> getPassagens(@PathVariable Long id) {
+        List<Usuario> lista = viagemService.getPassageirosDaViagem(id);
+        return ResponseEntity.status(HttpStatus.OK).body(lista);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Viagem> updateById(@PathVariable Long id, @Valid @RequestBody ViagemDTO viagemDTO){
+        Viagem viagemAtualizada = viagemService.updateById(id, viagemDTO.toEntity());
         return ResponseEntity.status(HttpStatus.OK).body(viagemAtualizada);
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPorId(@PathVariable Long id) {
-        boolean foiDeletado = viagemService.deletarPorId(id);
-        if(foiDeletado) return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        viagemService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

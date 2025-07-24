@@ -43,8 +43,7 @@ public class LanchaService {
     @Transactional
     public Lancha updateById(Long id, Lancha lancha){
         // Busca por lancha com id solicitado.
-        boolean existe = lanchaRepository.existsById(id);
-        if(!existe){
+        if(!lanchaRepository.existsById(id)){
             throw new RegistroNaoEncontradoException("Lancha com id " + id + " não encontrada.");
         }
 

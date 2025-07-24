@@ -20,9 +20,6 @@ public class LanchaValidator {
     private LanchaRepository lanchaRepository;
 
     @Autowired
-    MapaInternoRepository mapaInternoRepository;
-
-    @Autowired
     ViagemRepository viagemRepository;
 
     public void validarInsercao(Lancha lancha) {
