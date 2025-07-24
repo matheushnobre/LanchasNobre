@@ -33,7 +33,7 @@ public class LanchaValidator {
 
     public void validarAtualizacao(Long id, Lancha lancha) {
         Long idExistente = existsByNome(lancha);
-        if(idExistente != -1L && idExistente != id){
+        if(idExistente != -1L && !idExistente.equals(id)){
             throw new RegistroDuplicadoException("Nome de lancha já utilizado.");
         }
     }
