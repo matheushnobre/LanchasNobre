@@ -1,11 +1,14 @@
 package com.matheushnobre.LanchasNobre.validator;
 
-import com.matheushnobre.LanchasNobre.entity.StatusPagamento;
+import com.matheushnobre.LanchasNobre.entity.Cidade;
+import com.matheushnobre.LanchasNobre.entity.Lancha;
 import com.matheushnobre.LanchasNobre.entity.Viagem;
 import com.matheushnobre.LanchasNobre.exception.RegistroUtilizadoException;
 import com.matheushnobre.LanchasNobre.exception.ViagemNoPassadoException;
 import com.matheushnobre.LanchasNobre.exception.RegistroInvalidoException;
 import com.matheushnobre.LanchasNobre.exception.RegistroNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.repository.CidadeRepository;
+import com.matheushnobre.LanchasNobre.repository.LanchaRepository;
 import com.matheushnobre.LanchasNobre.repository.PassagemRepository;
 import com.matheushnobre.LanchasNobre.repository.ViagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,6 @@ import org.springframework.stereotype.Component;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.chrono.ChronoLocalDateTime;
-import java.util.List;
 
 @Component
 public class ViagemValidator {
@@ -24,6 +26,32 @@ public class ViagemValidator {
 
     @Autowired
     private PassagemRepository passagemRepository;
+
+    @Autowired
+    private CidadeRepository cidadeRepository;
+
+    @Autowired
+    private LanchaRepository lanchaRepository;
+
+    public Viagem atualizarChavesEstrangeiras(Viagem viagem){
+        Cidade cidadeOrigem = cidadeRepository.findById(viagem.getCidadeOrigem().getId()).orElseThrow(
+                () -> new RegistroNaoEncontradoException("Cidade com id " + viagem.getCidadeOrigem().getId() + " não encontrada.")
+        );
+
+        Cidade cidadeDestino = cidadeRepository.findById(viagem.getCidadeDestino().getId()).orElseThrow(
+                () -> new RegistroNaoEncontradoException("Cidade com id " + viagem.getCidadeDestino().getId() + " não encontrada.")
+        );
+
+        Lancha lancha = lanchaRepository.findById(viagem.getLancha().getId()).orElseThrow(
+                () -> new RegistroNaoEncontradoException("Lancha com id " + viagem.getLancha().getId() + " não encontrada.")
+        );
+
+        viagem.setCidadeOrigem(cidadeOrigem);
+        viagem.setCidadeDestino(cidadeDestino);
+        viagem.setLancha(lancha);
+
+        return viagem;
+    }
 
     public void validarInsercao(Viagem viagem) {
         if(isCidadesInvalidas(viagem)){
@@ -79,17 +107,14 @@ public class ViagemValidator {
     }
 
     private boolean isCidadesInvalidas(Viagem viagem){
-        // Se os IDs forem iguais, a viagem é inválida.
         return viagem.getCidadeOrigem().getId().equals(viagem.getCidadeDestino().getId());
     }
 
     private boolean isHorariosInvalidos(Viagem viagem){
-        // Verifica se a data de partida é posterior a de chegada. Em caso positivo, os horários são inválidos.
         return viagem.getDataPartida().isAfter(viagem.getDataChegada());
     }
 
     private boolean isViagemNoPassado(Viagem viagem){
-        // Verifica se a viagem já ocorreu comparando com o horário atual no fuso horário de Manaus.
         return viagem.getDataPartida().isBefore(ChronoLocalDateTime.from(ZonedDateTime.now(ZoneId.of("America/Manaus"))));
     }
 
@@ -98,12 +123,12 @@ public class ViagemValidator {
     }
 
     private boolean isLanchaAlterada(Viagem viagem, Viagem viagemUpdate){
-        // A lancha é alterada se os IDs forem diferentes
+        // A lancha é modificada se os IDs forem diferentes. Isso signfica que o cliente está tentando alterar este campo.
         return !viagem.getLancha().getId().equals(viagemUpdate.getLancha().getId());
     }
 
     private boolean isCidadesAlteradas(Viagem viagem, Viagem viagemUpdate){
-        // verifica se alguma das cidades está sendo atualizadda
+        // Verifica se alguma das cidades está sendo atualizada pelo cliente.
         boolean origemAlterada = !viagem.getCidadeOrigem().getId().equals(viagemUpdate.getCidadeOrigem().getId());
         boolean destinoAlterado = !viagem.getCidadeDestino().getId().equals(viagemUpdate.getCidadeDestino().getId());
         return origemAlterada || destinoAlterado;

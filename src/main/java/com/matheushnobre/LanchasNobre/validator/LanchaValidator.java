@@ -48,7 +48,7 @@ public class LanchaValidator {
             return lanchaEncontrada.get().getId();
         }
 
-        return -1L;
+        return -1L; // retorno caso a cidade não esteja cadastrada no banco de dados.
     }
 
     private boolean isUtilizada(Lancha lancha) {

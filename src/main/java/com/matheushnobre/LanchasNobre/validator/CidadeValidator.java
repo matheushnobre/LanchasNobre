@@ -43,10 +43,11 @@ public class CidadeValidator {
         if(cidadeEncontrada.isPresent()){
             return cidadeEncontrada.get().getId();
         }
-        return -1L;
+        return -1L; // Retorno para caso não possua outra cidade igual já cadastrada no sistema.
     }
 
     private boolean isUtilizada(Cidade cidade){
+        // Verifica se a cidade é utilizada em algum registro de viagem, seja como cidade de partida ou cidade de chegada.
         return (viagemRepository.countByCidadeOrigem(cidade) > 0 || viagemRepository.countByCidadeDestino(cidade) > 0);
     }
 }
