@@ -66,4 +66,11 @@ public class GlobalExceptionHandler {
         ApiError apiError = new ApiError(HttpStatus.UNPROCESSABLE_ENTITY.value(), ex.getMessage(), List.of());
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(apiError);
     }
+
+    // assento ocupado
+    @ExceptionHandler(AssentoOcupadoException.class)
+    public ResponseEntity<ApiError> handleAssentoOcupado(AssentoOcupadoException ex) {
+        ApiError apiError = new ApiError(HttpStatus.CONFLICT.value(), ex.getMessage(), List.of());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError);
+    }
 }

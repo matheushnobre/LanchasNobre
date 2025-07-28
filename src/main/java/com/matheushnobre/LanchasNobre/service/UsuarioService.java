@@ -60,12 +60,11 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public boolean deleteById(Long id) {
-        if(usuarioRepository.existsById(id)) {
-            usuarioRepository.deleteById(id);
-            return true;
-        }
-
-        return false;
+    public void deleteById(Long id) {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(
+                () -> new RegistroNaoEncontradoException("Usuário com id " + id + " não encontrado")
+        );
+        usuarioValidator.validarRemocao(usuario);
+        usuarioRepository.delete(usuario);
     }
 }

@@ -1,9 +1,10 @@
 package com.matheushnobre.LanchasNobre.validator;
 
 import com.matheushnobre.LanchasNobre.entity.Usuario;
-import com.matheushnobre.LanchasNobre.entity.Viagem;
 import com.matheushnobre.LanchasNobre.exception.AtualizacaoInvalidaException;
 import com.matheushnobre.LanchasNobre.exception.RegistroDuplicadoException;
+import com.matheushnobre.LanchasNobre.exception.RegistroUtilizadoException;
+import com.matheushnobre.LanchasNobre.repository.PassagemRepository;
 import com.matheushnobre.LanchasNobre.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,9 @@ public class UsuarioValidator {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    PassagemRepository passagemRepository;
 
     public void validarInsercao(Usuario usuario) {
         if(existeComMesmoEmail(usuario) != -1) {
@@ -36,6 +40,12 @@ public class UsuarioValidator {
         }
     }
 
+    public void validarRemocao(Usuario usuario){
+        if(possuiPassagensVinculadas(usuario)){
+            throw new RegistroUtilizadoException("Passageiro possui viagens vinculadas");
+        }
+    }
+
     private Long existeComMesmoEmail(Usuario usuario) {
         Optional<Usuario> usuarioEncontrado = usuarioRepository.findByEmail(usuario.getEmail());
         if (usuarioEncontrado.isPresent()) {
@@ -46,5 +56,9 @@ public class UsuarioValidator {
 
     private boolean isEmailAlterado(Usuario usuario, Usuario usuarioUpdate){
         return !usuario.getEmail().equals(usuarioUpdate.getEmail());
+    }
+
+    private boolean possuiPassagensVinculadas(Usuario usuario){
+        return !passagemRepository.findByPassageiro(usuario).isEmpty();
     }
 }
