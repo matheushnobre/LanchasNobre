@@ -59,4 +59,11 @@ public class GlobalExceptionHandler {
         ApiError apiError = new ApiError(HttpStatus.CONFLICT.value(), ex.getMessage(), List.of());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError);
     }
+
+    // atualizacao invalida
+    @ExceptionHandler(AtualizacaoInvalidaException.class)
+    public ResponseEntity<ApiError> handleAtualizacaoInvalida(AtualizacaoInvalidaException ex) {
+        ApiError apiError = new ApiError(HttpStatus.UNPROCESSABLE_ENTITY.value(), ex.getMessage(), List.of());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(apiError);
+    }
 }

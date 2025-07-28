@@ -5,6 +5,7 @@ import com.matheushnobre.LanchasNobre.entity.Usuario;
 import com.matheushnobre.LanchasNobre.exception.RegistroNaoEncontradoException;
 import com.matheushnobre.LanchasNobre.repository.PassagemRepository;
 import com.matheushnobre.LanchasNobre.repository.UsuarioRepository;
+import com.matheushnobre.LanchasNobre.validator.UsuarioValidator;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,23 +21,26 @@ public class UsuarioService {
     @Autowired
     private PassagemRepository passagemRepository;
 
+    @Autowired
+    private UsuarioValidator usuarioValidator;
+
     @Transactional
-    public Usuario salvar(Usuario usuario) {
-        // implementar validação posteriormente (somente cpf)
+    public Usuario add(Usuario usuario) {
+        usuarioValidator.validarInsercao(usuario);
         return usuarioRepository.save(usuario);
     }
 
-    public List<Usuario> listar() {
+    public List<Usuario> listAll() {
         return usuarioRepository.findAll();
     }
 
-    public Usuario selecionarPorId(Long id){
+    public Usuario getById(Long id){
         return usuarioRepository.findById(id).orElseThrow(
                 () -> new RegistroNaoEncontradoException("Usuário com id solicitado não encontrado")
         );
     }
 
-    public List<Passagem> listarPassagensDoUsuario(Long id){
+    public List<Passagem> getPassagensUsuario(Long id){
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(
                 () -> new RegistroNaoEncontradoException("Usuário com id solicitado não encontrado.")
         );
@@ -44,22 +48,19 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario atualizar(Long id, Usuario usuario) {
+    public Usuario updateById(Long id, Usuario usuario) {
         // Procura pelo usuario que será atualizado
-        Usuario usuarioAtualizado = usuarioRepository.findById(id).orElseThrow(
-                () -> new RegistroNaoEncontradoException("Usuário não encontrado.")
-        );
+        boolean existe = usuarioRepository.existsById(id);
+        if(!existe){
+            throw new RegistroNaoEncontradoException("Usuário com id " + id + " não encontrado.");
+        }
 
-        if(usuario.getNome() != null) usuarioAtualizado.setNome(usuario.getNome());
-        if(usuario.getCpf() != null) usuarioAtualizado.setCpf(usuario.getCpf());
-        if(usuario.getDataNascimento() != null) usuarioAtualizado.setDataNascimento(usuario.getDataNascimento());
-        if(usuario.getCpf() != null) usuarioAtualizado.setCpf(usuario.getCpf());
-
-        // implementar validação posteriormente (somente cpf)
-        return usuarioRepository.save(usuarioAtualizado);
+        usuarioValidator.validarAtualizacao(id, usuario);
+        usuario.setId(id);
+        return usuarioRepository.save(usuario);
     }
 
-    public boolean deletar(Long id) {
+    public boolean deleteById(Long id) {
         if(usuarioRepository.existsById(id)) {
             usuarioRepository.deleteById(id);
             return true;

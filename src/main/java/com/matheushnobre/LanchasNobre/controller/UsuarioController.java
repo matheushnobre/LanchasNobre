@@ -1,8 +1,10 @@
 package com.matheushnobre.LanchasNobre.controller;
 
+import com.matheushnobre.LanchasNobre.dto.UsuarioDTO;
 import com.matheushnobre.LanchasNobre.entity.Passagem;
 import com.matheushnobre.LanchasNobre.entity.Usuario;
 import com.matheushnobre.LanchasNobre.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,45 +13,45 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<Usuario> adicionar(@RequestBody Usuario usuario) {
-        Usuario usuarioCriado = usuarioService.salvar(usuario);
+    public ResponseEntity<Usuario> add(@RequestBody @Valid UsuarioDTO usuarioDTO) {
+        Usuario usuarioCriado = usuarioService.add(usuarioDTO.toEntity());
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCriado);
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listarTodos() {
-        List<Usuario> lista = usuarioService.listar();
+    public ResponseEntity<List<Usuario>> listAll() {
+        List<Usuario> lista = usuarioService.listAll();
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> selecionarPorId(@PathVariable Long id) {
-        Usuario usuario = usuarioService.selecionarPorId(id);
+    public ResponseEntity<Usuario> getById(@PathVariable Long id) {
+        Usuario usuario = usuarioService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(usuario);
     }
 
     @GetMapping("/listarPassagens/{id}")
-    public ResponseEntity<List<Passagem>> listarPassagensDoUsuario(@PathVariable Long id) {
-        List<Passagem> lista = usuarioService.listarPassagensDoUsuario(id);
+    public ResponseEntity<List<Passagem>> getPassagensUsuario(@PathVariable Long id) {
+        List<Passagem> lista = usuarioService.getPassagensUsuario(id);
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        Usuario usuarioAtualizado = usuarioService.atualizar(id, usuario);
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> updateById(@PathVariable Long id, @RequestBody @Valid UsuarioDTO usuarioDTO) {
+        Usuario usuarioAtualizado = usuarioService.updateById(id, usuarioDTO.toEntity());
         return ResponseEntity.status(HttpStatus.OK).body(usuarioAtualizado);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id){
-        boolean foiDeletado = usuarioService.deletar(id);
+    public ResponseEntity<Void> deleteById(@PathVariable Long id){
+        boolean foiDeletado = usuarioService.deleteById(id);
         if(foiDeletado) return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
