@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/passagem")
+@RequestMapping("/passagens")
 public class PassagemController {
 
     @Autowired
