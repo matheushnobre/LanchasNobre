@@ -10,7 +10,7 @@ Este projeto foi desenvolvido durante as aulas da disciplina de **Programação 
 
 ## 🧩 Tecnologias Utilizadas
 
-- Java 17  
+- Java
 - Spring Boot  
 - Spring Data JPA  
 - MySQL  
@@ -44,6 +44,9 @@ Essa separação facilita a manutenção, escalabilidade e organização do cód
 
 Utiliza-se o banco relacional **MySQL**, com estrutura baseada em **modelo entidade-relacionamento (MER)**. Cada entidade Java representa uma tabela no banco.
 
+O diagrama a seguir demonstra a representação dos dados neste sistema.
+![Diagrama Entidade-Relacionamento](https://imgur.com/a/fLQSeEx.png)
+
 ---
 
 ## 📦 Pacotes Auxiliares
@@ -53,6 +56,9 @@ Utiliza-se o banco relacional **MySQL**, com estrutura baseada em **modelo entid
 - `validator`: Regras de validação aplicadas antes das operações no banco
 
 ---
+
+## 🧩 Diagrama de Classes
+![Diagrama Entidade-Relacionamento](https://imgur.com/a/GAdUagN.png)
 
 ## 🔧 Funcionalidades da API
 
@@ -134,12 +140,13 @@ Cadastro de viagens fluviais.
 
 Cadastro e atualização de usuários (empresas e passageiros).
 
-| Método | Endpoint         | Descrição                    |
-|--------|------------------|------------------------------|
-| POST   | `/usuarios`      | Cadastrar novo usuário       |
-| GET    | `/usuarios`      | Listar todos os usuários     |
-| GET    | `/usuarios/{id}` | Listar passagens do usuário  |
-| PUT    | `/usuarios/{id}` | Atualizar dados do usuário   |
+| Método | Endpoint                         | Descrição                    |
+|--------|----------------------------------|------------------------------|
+| POST   | `/usuarios`                      | Cadastrar novo usuário       |
+| GET    | `/usuarios`                      | Listar todos os usuários     |
+| GET    | `/usuarios/{id}`                 | Detalhar usuário             |
+| GET    | `/usuarios/listarPassagens/{id}` | Listar passagens do usuário  |
+| PUT    | `/usuarios/{id}`                 | Atualizar dados do usuário   |
 
 **Regras de negócio**:
 - Nome, email, CPF e data de nascimento obrigatórios  
