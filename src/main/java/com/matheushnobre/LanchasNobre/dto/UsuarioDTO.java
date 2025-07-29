@@ -1,7 +1,7 @@
 package com.matheushnobre.LanchasNobre.dto;
 
 import com.matheushnobre.LanchasNobre.entity.Usuario;
-import com.matheushnobre.LanchasNobre.util.CPF;
+import com.matheushnobre.LanchasNobre.documentoValidator.CPF;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;

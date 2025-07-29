@@ -1,9 +1,9 @@
 package com.matheushnobre.LanchasNobre.validator;
 
 import com.matheushnobre.LanchasNobre.entity.Usuario;
-import com.matheushnobre.LanchasNobre.exception.AtualizacaoInvalidaException;
-import com.matheushnobre.LanchasNobre.exception.RegistroDuplicadoException;
-import com.matheushnobre.LanchasNobre.exception.RegistroUtilizadoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.AtualizacaoInvalidaException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroDuplicadoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroUtilizadoException;
 import com.matheushnobre.LanchasNobre.repository.PassagemRepository;
 import com.matheushnobre.LanchasNobre.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

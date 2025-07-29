@@ -1,9 +1,11 @@
 package com.matheushnobre.LanchasNobre.validator;
 
 import com.matheushnobre.LanchasNobre.entity.Lancha;
+import com.matheushnobre.LanchasNobre.entity.MapaInterno;
 import com.matheushnobre.LanchasNobre.entity.Viagem;
-import com.matheushnobre.LanchasNobre.exception.RegistroDuplicadoException;
-import com.matheushnobre.LanchasNobre.exception.RegistroUtilizadoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroDuplicadoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroUtilizadoException;
 import com.matheushnobre.LanchasNobre.repository.LanchaRepository;
 import com.matheushnobre.LanchasNobre.repository.MapaInternoRepository;
 import com.matheushnobre.LanchasNobre.repository.ViagemRepository;
@@ -21,6 +23,18 @@ public class LanchaValidator {
 
     @Autowired
     ViagemRepository viagemRepository;
+
+    @Autowired
+    MapaInternoRepository mapaInternoRepository;
+
+    public Lancha validarChavesEstrangeiras(Lancha lancha){
+        MapaInterno mapa = mapaInternoRepository.findById(lancha.getMapaInterno().getId()).orElseThrow(
+                () -> new RegistroNaoEncontradoException("Mapa interno não encontrado.")
+        );
+
+        lancha.setMapaInterno(mapa);
+        return lancha;
+    }
 
     public void validarInsercao(Lancha lancha) {
         if(existsByNome(lancha) != -1L){

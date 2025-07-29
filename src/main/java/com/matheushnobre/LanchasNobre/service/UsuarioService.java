@@ -2,7 +2,7 @@ package com.matheushnobre.LanchasNobre.service;
 
 import com.matheushnobre.LanchasNobre.entity.Passagem;
 import com.matheushnobre.LanchasNobre.entity.Usuario;
-import com.matheushnobre.LanchasNobre.exception.RegistroNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroNaoEncontradoException;
 import com.matheushnobre.LanchasNobre.repository.PassagemRepository;
 import com.matheushnobre.LanchasNobre.repository.UsuarioRepository;
 import com.matheushnobre.LanchasNobre.validator.UsuarioValidator;

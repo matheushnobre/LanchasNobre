@@ -1,4 +1,4 @@
-package com.matheushnobre.LanchasNobre.util;
+package com.matheushnobre.LanchasNobre.documentoValidator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

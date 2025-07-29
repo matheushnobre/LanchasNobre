@@ -1,8 +1,8 @@
 package com.matheushnobre.LanchasNobre.validator;
 
 import com.matheushnobre.LanchasNobre.entity.Cidade;
-import com.matheushnobre.LanchasNobre.exception.RegistroDuplicadoException;
-import com.matheushnobre.LanchasNobre.exception.RegistroUtilizadoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroDuplicadoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroUtilizadoException;
 import com.matheushnobre.LanchasNobre.repository.CidadeRepository;
 import com.matheushnobre.LanchasNobre.repository.ViagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;

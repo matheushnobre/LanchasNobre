@@ -1,4 +1,4 @@
-package com.matheushnobre.LanchasNobre.exception;
+package com.matheushnobre.LanchasNobre.exception.customizadas;
 
 public class RegistroDuplicadoException extends RuntimeException{
     public RegistroDuplicadoException(String mensagem){

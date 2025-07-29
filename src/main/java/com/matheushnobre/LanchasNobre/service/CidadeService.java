@@ -1,7 +1,7 @@
 package com.matheushnobre.LanchasNobre.service;
 
 import com.matheushnobre.LanchasNobre.entity.Cidade;
-import com.matheushnobre.LanchasNobre.exception.RegistroNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroNaoEncontradoException;
 import com.matheushnobre.LanchasNobre.repository.CidadeRepository;
 import com.matheushnobre.LanchasNobre.validator.CidadeValidator;
 import jakarta.transaction.Transactional;

@@ -1,14 +1,17 @@
 package com.matheushnobre.LanchasNobre.validator;
 
 import com.matheushnobre.LanchasNobre.entity.*;
-import com.matheushnobre.LanchasNobre.exception.AssentoOcupadoException;
-import com.matheushnobre.LanchasNobre.exception.RegistroNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.AssentoOcupadoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.ViagemNoPassadoException;
 import com.matheushnobre.LanchasNobre.repository.AssentoRepository;
 import com.matheushnobre.LanchasNobre.repository.PassagemRepository;
 import com.matheushnobre.LanchasNobre.repository.UsuarioRepository;
 import com.matheushnobre.LanchasNobre.repository.ViagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @Component
 public class PassagemValidator {
@@ -45,8 +48,21 @@ public class PassagemValidator {
 
     public void validarInsercao(Passagem passagem) {
         Passagem p = passagemRepository.findByAssentoAndViagem(passagem.getAssento(), passagem.getViagem());
-        if(p != null && p.getStatusPagamento() != StatusPagamento.CANCELADA) {
+        if(isAssentoocupado(passagem)) {
             throw new AssentoOcupadoException("Assento já ocupado.");
         }
+
+        if(isViagemNoPassado(passagem)) {
+            throw new ViagemNoPassadoException("Não é possível vender passagens para viagens que já ocorreram/estão ocorrendo.");
+        }
+    }
+
+    private boolean isAssentoocupado(Passagem passagem){
+        Passagem p = passagemRepository.findByAssentoAndViagem(passagem.getAssento(), passagem.getViagem());
+        return(p != null && p.getStatusPagamento() != StatusPagamento.CANCELADA);
+    }
+
+    private boolean isViagemNoPassado(Passagem passagem){
+        return passagem.getViagem().getDataPartida().isBefore(LocalDateTime.now());
     }
 }

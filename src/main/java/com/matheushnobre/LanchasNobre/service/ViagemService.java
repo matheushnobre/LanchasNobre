@@ -1,9 +1,8 @@
 package com.matheushnobre.LanchasNobre.service;
 
 import com.matheushnobre.LanchasNobre.entity.*;
-import com.matheushnobre.LanchasNobre.exception.RegistroNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroNaoEncontradoException;
 import com.matheushnobre.LanchasNobre.repository.CidadeRepository;
-import com.matheushnobre.LanchasNobre.repository.LanchaRepository;
 import com.matheushnobre.LanchasNobre.repository.PassagemRepository;
 import com.matheushnobre.LanchasNobre.repository.ViagemRepository;
 import com.matheushnobre.LanchasNobre.validator.ViagemValidator;

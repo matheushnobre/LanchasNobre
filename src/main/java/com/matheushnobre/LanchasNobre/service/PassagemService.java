@@ -2,7 +2,7 @@ package com.matheushnobre.LanchasNobre.service;
 
 import com.matheushnobre.LanchasNobre.entity.Passagem;
 import com.matheushnobre.LanchasNobre.entity.StatusPagamento;
-import com.matheushnobre.LanchasNobre.exception.RegistroNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroNaoEncontradoException;
 import com.matheushnobre.LanchasNobre.repository.PassagemRepository;
 import com.matheushnobre.LanchasNobre.validator.PassagemValidator;
 import jakarta.transaction.Transactional;

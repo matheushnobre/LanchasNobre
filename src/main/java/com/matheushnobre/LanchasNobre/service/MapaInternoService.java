@@ -2,7 +2,7 @@ package com.matheushnobre.LanchasNobre.service;
 
 import com.matheushnobre.LanchasNobre.entity.Assento;
 import com.matheushnobre.LanchasNobre.entity.MapaInterno;
-import com.matheushnobre.LanchasNobre.exception.RegistroNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroNaoEncontradoException;
 import com.matheushnobre.LanchasNobre.repository.MapaInternoRepository;
 import com.matheushnobre.LanchasNobre.validator.MapaInternoValidator;
 import jakarta.transaction.Transactional;

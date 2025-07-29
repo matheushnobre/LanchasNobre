@@ -1,7 +1,7 @@
 package com.matheushnobre.LanchasNobre.service;
 
 import com.matheushnobre.LanchasNobre.entity.Lancha;
-import com.matheushnobre.LanchasNobre.exception.RegistroNaoEncontradoException;
+import com.matheushnobre.LanchasNobre.exception.customizadas.RegistroNaoEncontradoException;
 import com.matheushnobre.LanchasNobre.repository.LanchaRepository;
 import com.matheushnobre.LanchasNobre.repository.MapaInternoRepository;
 import com.matheushnobre.LanchasNobre.validator.LanchaValidator;
@@ -26,6 +26,7 @@ public class LanchaService {
 
     @Transactional
     public Lancha add(Lancha lancha){
+        lanchaValidator.validarChavesEstrangeiras(lancha);
         lanchaValidator.validarInsercao(lancha);
         return lanchaRepository.save(lancha);
     }
@@ -48,6 +49,7 @@ public class LanchaService {
         }
 
         // Valida a alteração e persiste no banco.
+        lanchaValidator.validarChavesEstrangeiras(lancha);
         lanchaValidator.validarAtualizacao(id, lancha);
         lancha.setId(id);
         return lanchaRepository.save(lancha);
