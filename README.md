@@ -45,7 +45,7 @@ Essa separação facilita a manutenção, escalabilidade e organização do cód
 Utiliza-se o banco relacional **MySQL**, com estrutura baseada em **modelo entidade-relacionamento (MER)**. Cada entidade Java representa uma tabela no banco.
 
 O diagrama a seguir demonstra a representação dos dados neste sistema.
-![Diagrama Entidade-Relacionamento](https://imgur.com/a/fLQSeEx.jpg)
+![Diagrama Entidade-Relacionamento](assets/modelo-entidade-relacionamento-bd.png)
 
 ---
 
@@ -58,7 +58,7 @@ O diagrama a seguir demonstra a representação dos dados neste sistema.
 ---
 
 ## 🧩 Diagrama de Classes
-![Diagrama Entidade-Relacionamento](https://imgur.com/a/GAdUagN.jpg)
+![Diagrama de Classes](assets/diagrama-classes.jpg)
 
 ## 🔧 Funcionalidades da API
 
