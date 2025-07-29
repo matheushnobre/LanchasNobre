@@ -120,14 +120,15 @@ Cadastro de cidades envolvidas nas rotas.
 
 Cadastro de viagens fluviais.
 
-| Método | Endpoint                                                    | Descrição                     |
-|--------|-------------------------------------------------------------|-------------------------------|
-| POST   | `/viagens`                                                  | Cadastrar nova viagem         |
-| GET    | `/viagens`                                                  | Listar todas as viagens       |
-| GET    | `/viagens/{id}`                                             | Detalhar viagem por ID        |
-| GET    | `/viagens/{idOrigem}/{idDestino}/{dataPartida}`             | Buscar por parâmetros         |
-| GET    | `/viagens/passageiros/{id}`                                 | Listar passageiros da viagem  |
-| PUT    | `/viagens/{id}`                                             | Atualizar viagem              |
+| Método    | Endpoint                                                    | Descrição                     |
+|-----------|-------------------------------------------------------------|-------------------------------|
+| POST      | `/viagens`                                                  | Cadastrar nova viagem         |
+| GET       | `/viagens`                                                  | Listar todas as viagens       |
+| GET       | `/viagens/{id}`                                             | Detalhar viagem por ID        |
+| GET       | `/viagens/{idOrigem}/{idDestino}/{dataPartida}`             | Buscar por parâmetros         |
+| GET       | `/viagens/passageiros/{id}`                                 | Listar passageiros da viagem  |
+| PUT       | `/viagens/{id}`                                             | Atualizar viagem              |
+| DELETE    | `/viagens/{id}`                                             | Deletar viagem (se permitido) |
 
 **Regras de negócio**:
 - Origem e destino devem ser diferentes  
@@ -140,13 +141,14 @@ Cadastro de viagens fluviais.
 
 Cadastro e atualização de usuários (empresas e passageiros).
 
-| Método | Endpoint                         | Descrição                    |
-|--------|----------------------------------|------------------------------|
-| POST   | `/usuarios`                      | Cadastrar novo usuário       |
-| GET    | `/usuarios`                      | Listar todos os usuários     |
-| GET    | `/usuarios/{id}`                 | Detalhar usuário             |
-| GET    | `/usuarios/listarPassagens/{id}` | Listar passagens do usuário  |
-| PUT    | `/usuarios/{id}`                 | Atualizar dados do usuário   |
+| Método    | Endpoint                         | Descrição                    |
+|-----------|----------------------------------|------------------------------|
+| POST      | `/usuarios`                      | Cadastrar novo usuário       |
+| GET       | `/usuarios`                      | Listar todos os usuários     |
+| GET       | `/usuarios/{id}`                 | Detalhar usuário             |
+| GET       | `/usuarios/listarPassagens/{id}` | Listar passagens do usuário  |
+| PUT       | `/usuarios/{id}`                 | Atualizar dados do usuário   |
+| DELETE    | `/usuarios/{id}`                 | Deletar usuário              |
 
 **Regras de negócio**:
 - Nome, email, CPF e data de nascimento obrigatórios  
