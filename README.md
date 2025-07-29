@@ -71,7 +71,7 @@ Permite cadastrar, listar, visualizar e excluir mapas de assentos usados nas lan
 | POST   | `/mapas`       | Cadastrar novo mapa          |
 | GET    | `/mapas`       | Listar todos os mapas        |
 | GET    | `/mapas/{id}`  | Obter mapa por ID            |
-| DELETE | `/mapas/{id}`  | Remover mapa (se não em uso) |
+| DELETE | `/mapas/{id}`  | Remover mapa                 |
 
 **Regras de negócio**:
 - Descrição obrigatória  
@@ -84,13 +84,13 @@ Permite cadastrar, listar, visualizar e excluir mapas de assentos usados nas lan
 
 Permite cadastrar, editar, visualizar e excluir embarcações.
 
-| Método | Endpoint        | Descrição                     |
+| Método | Endpoint         | Descrição                     |
 |--------|------------------|-------------------------------|
 | POST   | `/lanchas`       | Cadastrar nova lancha         |
 | GET    | `/lanchas`       | Listar todas as lanchas       |
 | GET    | `/lanchas/{id}`  | Detalhar uma lancha           |
 | PUT    | `/lanchas/{id}`  | Atualizar lancha              |
-| DELETE | `/lanchas/{id}`  | Excluir lancha (se permitido) |
+| DELETE | `/lanchas/{id}`  | Excluir lancha                |
 
 **Regras de negócio**:
 - Nome da lancha deve ser único  
@@ -108,7 +108,7 @@ Cadastro de cidades envolvidas nas rotas.
 | POST   | `/cidades`       | Cadastrar nova cidade         |
 | GET    | `/cidades`       | Listar todas as cidades       |
 | PUT    | `/cidades/{id}`  | Atualizar cidade              |
-| DELETE | `/cidades/{id}`  | Excluir cidade (se permitido) |
+| DELETE | `/cidades/{id}`  | Excluir cidade                |
 
 **Regras de negócio**:
 - Nome + estado devem ser únicos  
@@ -128,11 +128,13 @@ Cadastro de viagens fluviais.
 | GET       | `/viagens/{idOrigem}/{idDestino}/{dataPartida}`             | Buscar por parâmetros         |
 | GET       | `/viagens/passageiros/{id}`                                 | Listar passageiros da viagem  |
 | PUT       | `/viagens/{id}`                                             | Atualizar viagem              |
-| DELETE    | `/viagens/{id}`                                             | Deletar viagem (se permitido) |
+| DELETE    | `/viagens/{id}`                                             | Deletar viagem              |
 
 **Regras de negócio**:
 - Origem e destino devem ser diferentes  
 - Partida deve ser futura, e chegada após a partida  
+- Não atualizar viagens que já ocorreram
+- Não alterar lancha nem origem/destino de viagens que já possuam passagens vinculadas
 - Não excluir viagens com passagens vendidas  
 
 ---
@@ -151,10 +153,8 @@ Cadastro e atualização de usuários (empresas e passageiros).
 | DELETE    | `/usuarios/{id}`                 | Deletar usuário              |
 
 **Regras de negócio**:
-- Nome, email, CPF e data de nascimento obrigatórios  
 - CPF deve ser válido  
 - Email deve ser único e imutável  
-- Usuário não pode ser excluído  
 
 ---
 
